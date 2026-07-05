@@ -1,0 +1,229 @@
+You are an expert Grafana dashboard designer and observability engineer.
+I have attached an existing Grafana dashboard JSON. DO NOT simply rearrange panels. Use it as the source of truth for Prometheus queries, datasource variables, and templating, but redesign the dashboard completely.
+
+GOAL
+Create a premium-quality Grafana 11 dashboard that looks like something from Grafana Cloud, Datadog, Netdata or Home Assistant.
+This is for a personal homelab running on an old MacBook Air with Prometheus and Node Exporter.
+The dashboard should feel like a polished operations console, not an engineering prototype.
+
+==================================================
+GENERAL REQUIREMENTS
+==================================================
+- Output ONLY a valid Grafana dashboard JSON.
+- Grafana schemaVersion 41+
+- Compatible with Grafana 11
+- Preserve existing datasource variables.
+- Preserve existing Prometheus queries whenever possible.
+- Do not break templating variables.
+- Remove duplicate information.
+- Use modern panel types whenever appropriate.
+- Keep consistent spacing.
+- Every row should completely fill the available width.
+- No empty black areas.
+- No overlapping panels.
+- No unused space.
+
+==================================================
+MOBILE FIRST
+==================================================
+The dashboard MUST remain readable on phones.
+Avoid tiny panels.
+Prefer:
+Desktop:
+6 KPI cards
+Phone:
+Stacked vertically
+Large charts should become one-per-row on narrow displays.
+Stat cards must remain readable.
+No chart should require zooming.
+Panels should have generous heights.
+
+==================================================
+STYLE
+==================================================
+Dark theme
+Rounded appearance
+Minimalistic
+Modern
+Professional
+Not rainbow-colored
+Use consistent colors:
+CPU — Blue
+Memory — Purple
+Disk — Orange
+Filesystem — Amber
+Network — Cyan
+Docker — Green
+Temperature — Red
+Health — Emerald
+Warnings — Yellow
+Critical — Red
+
+==================================================
+TOP BAR
+==================================================
+One row of KPI cards.
+Each card should contain:
+- Icon
+- Current value
+- Small sparkline
+- Threshold coloring
+
+Cards: CPU %, RAM %, Disk %, Network Throughput, Temperature, Load Average, Uptime, Running Containers
+
+==================================================
+LAYOUT
+==================================================
+ROW 1: CPU, RAM, Disk, Network, Temperature, Load, Uptime, Containers
+ROW 2: CPU Usage (50%) + Memory Usage (50%)
+ROW 3: Filesystem Usage (50%) + Disk IO (50%)
+ROW 4: Network Traffic (100%)
+ROW 5: Processes (33%) + Pressure Stall Information (33%) + Load Average (33%)
+ROW 6: Docker CPU (50%) + Docker Memory (50%)
+ROW 7: SMART / Storage Health (50%) + Time Sync / NTP (50%)
+ROW 8: Homelab Services Status (100%)
+
+==================================================
+PANELS
+==================================================
+CPU:
+Large timeseries
+Stack user/system/iowait
+Fill opacity
+Smooth lines
+
+Memory:
+Used
+Cache
+Free
+Swap
+
+Filesystem:
+Table
+Progress bars
+Sorted by utilization
+Thresholds
+
+Disk IO:
+Reads
+Writes
+Latency if available
+
+Network:
+RX
+TX
+Current bandwidth
+Interfaces
+
+Processes:
+Running
+Blocked
+Forks
+
+Pressure:
+CPU PSI
+Memory PSI
+IO PSI
+
+Temperature:
+CPU temp
+SSD temp if available
+
+Load:
+1m
+5m
+15m
+
+Containers:
+Running count
+Restart count
+CPU
+RAM
+
+==================================================
+VISUAL RULES
+==================================================
+Every stat panel has sparkline.
+Every graph has legend.
+Every graph has units.
+Every graph has thresholds.
+Every graph has descriptions.
+Every graph has proper titles.
+Every graph has consistent colors.
+Use percent where appropriate.
+Use bytes where appropriate.
+Use bps for network.
+Use IOPS for disks.
+
+==================================================
+COLORS
+==================================================
+Idle — Grey
+User CPU — Blue
+System CPU — Orange
+IOWait — Red
+Memory Used — Purple
+Cache — Blue
+Swap — Orange
+Disk Read — Green
+Disk Write — Yellow
+RX — Blue
+TX — Green
+
+==================================================
+NICE TOUCHES
+==================================================
+Section headers
+Icons in panel titles
+Descriptions on hover
+Clean legends
+Hidden unnecessary labels
+Good panel spacing
+Consistent panel heights
+Large stat fonts
+Human-readable byte units
+Short duration formatting
+
+==================================================
+EXPANDABILITY
+==================================================
+Include rows that automatically become useful if these exporters exist:
+cAdvisor
+SmartCTL Exporter
+Node Exporter
+Tailscale Exporter
+Uptime Kuma
+Alertmanager
+
+If the metrics don't exist, the panels should simply display No Data.
+
+==================================================
+DO NOT
+==================================================
+Do not use old Grafana layouts.
+Do not waste space.
+Do not create 4-column dashboards.
+Do not make tiny unreadable graphs.
+Do not duplicate metrics.
+Do not use pie charts.
+Do not use gauges everywhere.
+Avoid bar gauges unless appropriate.
+
+==================================================
+FINAL REQUIREMENTS
+==================================================
+Return ONE importable dashboard JSON.
+No markdown.
+No explanations.
+No comments.
+No code fences.
+The output should be directly importable into Grafana.
+Use the attached dashboard only as a source for queries and variables while completely redesigning the layout and presentation.
+
+==================================================
+HOMELAB SERVICES STATUS ROW
+==================================================
+Include a final row titled "🏠 HOMELAB SERVICES" with status cards for:
+Homepage, Grafana, Prometheus, Uptime Kuma, Tailscale, Node Exporter, cAdvisor, Loki, Alertmanager
+
+Each card shows green/yellow/red status based on `up{job="<service>"}` metrics from Prometheus, giving a true at-a-glance operational view of the entire homelab.

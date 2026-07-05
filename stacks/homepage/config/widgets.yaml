@@ -1,0 +1,14 @@
+- datetime:
+    text_format: dddd, MMMM Do
+    locale: en
+
+- search:
+    provider: duckduckgo
+    target: _blank
+
+- glances:
+    url: http://glances:61208
+    version: 4
+    cpu: true
+    mem: true
+    disk: /rootfs

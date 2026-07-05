@@ -1,0 +1,21 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./config:/app/config
+      - ./images:/app/public/images
+      - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations, see alternative methods
+    env_file: .env
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: localhost,127.0.0.1,homepage,dheerajs-macbook-pro,nothing-phone-3a,${HOMEPAGE_VAR_HOSTNAME}:3000,100.66.120.121
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  default:
+    external: true
+    name: homelab

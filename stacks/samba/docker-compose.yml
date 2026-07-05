@@ -1,0 +1,19 @@
+services:
+  samba:
+    image: dperson/samba
+    container_name: samba
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      TZ: Asia/Kolkata
+    volumes:
+      - ../../shared:/shared
+    ports:
+      - 139:139
+      - 445:445
+    command: '-u "dheeraj;${SAMBA_PASSWORD}" -s "Shared;/shared;yes;no;no;dheeraj"'
+
+networks:
+  default:
+    external: true
+    name: homelab

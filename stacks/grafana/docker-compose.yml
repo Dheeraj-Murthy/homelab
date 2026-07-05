@@ -1,0 +1,15 @@
+services:
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+
+    restart: unless-stopped
+
+    ports:
+      - "3001:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data:/var/lib/grafana
+      - ./config/provisioning:/etc/grafana/provisioning
+

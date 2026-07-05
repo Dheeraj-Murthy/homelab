@@ -1,0 +1,19 @@
+title: Homelab
+
+background:
+  image: /images/Dracula.png
+  blur: sm
+  brightness: 50
+
+theme: dark
+color: gray
+
+statusStyle: dot
+useEqualHeightCards: true
+headerStyle: clean
+hideVersion: true
+target: _blank
+
+providers:
+  openweathermap: openweathermapapikey
+  weatherapi: weatherapiapikey

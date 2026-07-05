@@ -1,2 +1,7 @@
 data/
 backups/
+.env
+shared/
+stacks/filebrowser/database/
+stacks/pairdrop/config/rtc_config.json
+stacks/homepage/config/logs/

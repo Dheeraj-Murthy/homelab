@@ -1,0 +1,20 @@
+services:
+  pairdrop:
+    image: lscr.io/linuxserver/pairdrop:latest
+    container_name: pairdrop
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Asia/Kolkata
+      WS_FALLBACK: "true"
+      RTC_CONFIG: /rtc_config.json
+    volumes:
+      - ./config/rtc_config.json:/rtc_config.json:ro
+    ports:
+      - 8082:3000
+
+networks:
+  default:
+    external: true
+    name: homelab

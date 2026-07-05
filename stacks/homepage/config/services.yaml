@@ -1,0 +1,70 @@
+- Infrastructure:
+    - Homepage:
+        icon: homepage
+        href: http://{{HOMEPAGE_VAR_HOSTNAME}}:3000
+        description: Dashboard
+    - Portainer:
+        icon: portainer
+        href: https://{{HOMEPAGE_VAR_HOSTNAME}}:9443
+        description: Container management
+        widget:
+          type: portainer
+          url: http://portainer:9000
+          env: {{HOMEPAGE_VAR_PORTAINER_ENV}}
+          key: {{HOMEPAGE_VAR_PORTAINER_KEY}}
+
+- Monitoring:
+    - Grafana:
+        icon: grafana
+        href: http://{{HOMEPAGE_VAR_HOSTNAME}}:3001
+        description: Metrics dashboards
+        widget:
+          type: grafana
+          url: http://host.docker.internal:3001
+          username: {{HOMEPAGE_VAR_GRAFANA_USERNAME}}
+          password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
+    - Prometheus:
+        icon: prometheus
+        href: http://{{HOMEPAGE_VAR_HOSTNAME}}:9090
+        description: Time-series database
+        widget:
+          type: prometheus
+          url: http://host.docker.internal:9090
+    - Glances:
+        icon: glances
+        href: http://{{HOMEPAGE_VAR_HOSTNAME}}:61208
+        description: Host system stats
+        widget:
+          type: glances
+          url: http://glances:61208
+          version: 4
+          metric: containers
+          chart: true
+    - CPU History:
+        widget:
+          type: glances
+          url: http://glances:61208
+          version: 4
+          metric: cpu
+          chart: true
+    - Memory History:
+        widget:
+          type: glances
+          url: http://glances:61208
+          version: 4
+          metric: memory
+          chart: true
+
+- Storage:
+    - File Browser:
+        icon: filebrowser
+        href: http://{{HOMEPAGE_VAR_HOSTNAME}}:8090
+        description: Web file manager
+    - PairDrop:
+        icon: pairdrop
+        href: http://{{HOMEPAGE_VAR_HOSTNAME}}:8082
+        description: AirDrop-style file & clipboard sharing
+    - Samba:
+        icon: samba
+        href: smb://{{HOMEPAGE_VAR_HOSTNAME}}/Shared
+        description: Network share (SMB)
