@@ -12,6 +12,16 @@
           url: http://portainer:9000
           env: {{HOMEPAGE_VAR_PORTAINER_ENV}}
           key: {{HOMEPAGE_VAR_PORTAINER_KEY}}
+    - Networking:
+        - AdGuard Home:
+            icon: adguard-home
+            href: http://{{HOMEPAGE_VAR_HOSTNAME}}:3053
+            description: DNS ad-blocking for the tailnet
+            widget:
+              type: adguard
+              url: http://adguard:80
+              username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
+              password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
 
 - Monitoring:
     - Grafana:
@@ -65,6 +75,6 @@
         href: http://{{HOMEPAGE_VAR_HOSTNAME}}:8082
         description: AirDrop-style file & clipboard sharing
     - Samba:
-        icon: samba
+        icon: samba-server
         href: smb://{{HOMEPAGE_VAR_HOSTNAME}}/Shared
         description: Network share (SMB)

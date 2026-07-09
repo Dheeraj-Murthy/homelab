@@ -17,12 +17,13 @@ git clone <repo-url> homelab && cd homelab
 `.env.example` templates (random passwords, auto-detected Tailscale hostname), and starts every
 stack. It's safe to re-run any time.
 
-Three things need a one-time manual login (can't be scripted) and are printed at the end of the
+Four things need a one-time manual login (can't be scripted) and are printed at the end of the
 script:
 
 - **Grafana** — set the admin password
 - **Portainer** — create your admin account, generate an API token
 - **File Browser** — change the default admin password
+- **AdGuard Home** — run the setup wizard, set the admin password
 
 After those, update `stacks/homepage/.env` to match and run:
 
@@ -32,6 +33,10 @@ cd stacks/homepage && docker compose up -d --force-recreate
 
 Everything uses `restart: unless-stopped` and Docker starts on boot, so once it's up, it survives
 a reboot with no further action.
+
+To actually use AdGuard Home as your tailnet's DNS resolver, set it as a custom nameserver in the
+[Tailscale admin console](https://login.tailscale.com/admin/dns) — that's a one-time step on
+Tailscale's side that can't be scripted from this repo.
 
 ## Services
 
@@ -47,6 +52,7 @@ a reboot with no further action.
 | [Samba](stacks/samba) | 139, 445 | Network file share (mount as a drive on macOS/Windows/Android) |
 | [PairDrop](stacks/pairdrop) | 8082 | AirDrop-style instant file & clipboard sharing between devices |
 | [Coturn](stacks/coturn) | 3478, 49160-49200 | TURN relay so PairDrop works across Tailscale |
+| [AdGuard Home](stacks/adguard) | 53, 3053 | DNS ad-blocking, reachable over Tailscale only |
 
 File Browser, Samba, and PairDrop all share the same `shared/` folder at the repo root.
 
@@ -58,6 +64,9 @@ File Browser, Samba, and PairDrop all share the same `shared/` folder at the rep
 - The Tailscale hostname lives in one place, `HOMEPAGE_VAR_HOSTNAME` in `stacks/homepage/.env`,
   and is templated everywhere else it's needed. Container-to-container calls use
   `host.docker.internal` instead, so they don't depend on Tailscale DNS at all.
+- AdGuard Home publishes its DNS (53) and web UI (3053) ports bound to the host's Tailscale IP
+  only (`stacks/adguard/.env` → `TAILSCALE_IP`), so it's unreachable from the LAN or internet —
+  only tailnet devices can use it.
 
 ## More Detail
 

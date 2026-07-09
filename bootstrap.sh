@@ -25,8 +25,19 @@ if [[ -z "$HOSTNAME_GUESS" ]]; then
 fi
 echo "  using: $HOSTNAME_GUESS (edit stacks/homepage/.env HOMEPAGE_VAR_HOSTNAME if wrong)"
 
+echo "==> Detecting Tailscale IP (for AdGuard Home - Tailscale-only binding)"
+TAILSCALE_IP_GUESS=$(tailscale ip -4 2>/dev/null | head -1)
+if [[ -z "$TAILSCALE_IP_GUESS" ]]; then
+  TAILSCALE_IP_GUESS="127.0.0.1"
+  echo "  Tailscale not up - failing closed to 127.0.0.1 (AdGuard won't be reachable anywhere)."
+  echo "  Re-run bootstrap.sh once Tailscale is up, or edit stacks/adguard/.env TAILSCALE_IP"
+  echo "  and run (cd stacks/adguard && docker compose up -d --force-recreate)."
+else
+  echo "  using: $TAILSCALE_IP_GUESS"
+fi
+
 echo "==> Secrets (.env files)"
-for stack in homepage samba coturn; do
+for stack in homepage samba coturn adguard; do
   dir="stacks/$stack"
   if [[ -f "$dir/.env" ]]; then
     echo "  $dir/.env already exists, leaving it alone"
@@ -43,6 +54,8 @@ grep -q "^SAMBA_PASSWORD=changeme" stacks/samba/.env 2>/dev/null &&
   sed -i "s/^SAMBA_PASSWORD=changeme/SAMBA_PASSWORD=$(random_secret)/" stacks/samba/.env
 grep -q "^TURN_PASSWORD=changeme" stacks/coturn/.env 2>/dev/null &&
   sed -i "s/^TURN_PASSWORD=changeme/TURN_PASSWORD=$(random_secret)/" stacks/coturn/.env
+grep -q "^TAILSCALE_IP=100.64.0.1" stacks/adguard/.env 2>/dev/null &&
+  sed -i "s/^TAILSCALE_IP=100.64.0.1/TAILSCALE_IP=$TAILSCALE_IP_GUESS/" stacks/adguard/.env
 
 echo "==> PairDrop TURN config (regenerated from coturn's .env every run)"
 TURN_USER=$(grep '^TURN_USER=' stacks/coturn/.env | cut -d= -f2)
@@ -79,6 +92,11 @@ cat <<EOF
                  set HOMEPAGE_VAR_PORTAINER_KEY/ENV in stacks/homepage/.env
   - File Browser http://${HOSTNAME_GUESS}:8090   log in admin/admin and change the password
                  (see AGENTS.md for the CLI command - the UI has no "change password" for admin)
+  - AdGuard Home http://${TAILSCALE_IP_GUESS}:3053   run the setup wizard, set the admin
+                 password, then set HOMEPAGE_VAR_ADGUARD_USERNAME/PASSWORD in stacks/homepage/.env.
+                 To actually use it as your tailnet's DNS resolver, set it as a custom nameserver
+                 in the Tailscale admin console (login.tailscale.com/admin/dns) - that step can't
+                 be scripted from here.
 
   After updating stacks/homepage/.env, apply it with:
     (cd stacks/homepage && docker compose up -d --force-recreate)

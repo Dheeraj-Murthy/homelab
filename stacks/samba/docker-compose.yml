@@ -6,12 +6,14 @@ services:
     env_file: .env
     environment:
       TZ: Asia/Kolkata
+      USERID: 1000
+      GROUPID: 1000
     volumes:
       - ../../shared:/shared
     ports:
       - 139:139
       - 445:445
-    command: '-u "dheeraj;${SAMBA_PASSWORD}" -s "Shared;/shared;yes;no;no;dheeraj"'
+    command: '-p -u "dheeraj;${SAMBA_PASSWORD}" -s "Shared;/shared;yes;no;no;dheeraj"'
 
 networks:
   default:

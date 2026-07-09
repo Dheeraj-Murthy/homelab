@@ -354,12 +354,33 @@ Possible models:
 
 # Phase 9 — Networking
 
+## AdGuard Home
+
+Status: ✅ Done (2026-07-05)
+
+Purpose
+
+- Network-wide DNS ad/tracker blocking
+- Grouped under Homepage's "Storage" section (not its own group) to keep the dashboard's 3-column
+  row layout intact — a 4th group wraps awkwardly on narrower screens
+- Bridge-networked (joins `homelab` like everything else, so Homepage can reach it internally at
+  `http://adguard:3000`), but its host-published ports (53 DNS, 3053 web UI) are bound to the
+  host's Tailscale IP only (`stacks/adguard/.env` → `TAILSCALE_IP`, detected by `bootstrap.sh` via
+  `tailscale ip -4`) — never the LAN or `0.0.0.0`
+- Fails closed: if Tailscale isn't up when `bootstrap.sh` runs, `TAILSCALE_IP` defaults to
+  `127.0.0.1` rather than opening the ports up on all interfaces
+- Admin credentials set via AdGuard's own first-run setup wizard (same category as Grafana/
+  Portainer/File Browser's manual first-login steps) — its config dir
+  (`stacks/adguard/config/`) stores the password hash, so it's gitignored, not committed
+- To actually use it as the tailnet's DNS resolver, set it as a custom nameserver in the
+  [Tailscale admin console](https://login.tailscale.com/admin/dns) — a one-time, non-scriptable
+  step on Tailscale's side
+
 Future additions:
 
 - Nginx Proxy Manager
 - Traefik
 - SSL certificates
-- DNS improvements
 - Cloudflare Tunnel (optional)
 
 ---

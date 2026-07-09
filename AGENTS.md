@@ -17,9 +17,10 @@ This creates the `homelab` docker network, the `shared/` folder, generates `.env
 `.env.example` templates (random passwords, detected Tailscale hostname), and starts every stack.
 It's idempotent — re-running it skips anything already configured/running.
 
-Three things can't be scripted (need a browser, first-login flows) and are printed at the end of
-`bootstrap.sh`: setting the Grafana admin password, generating a Portainer API token, and changing
-the File Browser admin password. After doing those, update `stacks/homepage/.env` to match and run
+Four things can't be scripted (need a browser, first-login flows) and are printed at the end of
+`bootstrap.sh`: setting the Grafana admin password, generating a Portainer API token, changing
+the File Browser admin password, and running the AdGuard Home setup wizard. After doing those,
+update `stacks/homepage/.env` to match and run
 `(cd stacks/homepage && docker compose up -d --force-recreate)`.
 
 All containers use `restart: unless-stopped` and `docker.service` is enabled at boot, so once
@@ -62,6 +63,7 @@ Stacks using `network_mode: host` (prometheus, node-exporter) ignore this networ
 | PairDrop    | 8082      |
 | Samba       | 139, 445  |
 | Coturn      | 3478, 49160-49200 |
+| AdGuard Home| 53 (DNS), 3053 (web UI) — Tailscale IP only |
 
 ## Stack Conventions
 
@@ -91,3 +93,9 @@ Services reference the host via its Tailscale hostname. This lives in one place 
 `${HOMEPAGE_VAR_HOSTNAME}` substitution in `docker-compose.yml` (`HOMEPAGE_ALLOWED_HOSTS`).
 `bootstrap.sh` auto-detects it via `tailscale status`. Container-to-container calls (e.g. Grafana
 → Prometheus) use `host.docker.internal` instead, which doesn't need the hostname at all.
+
+AdGuard Home is different: it needs an actual Tailscale *IP* (not hostname) to scope its published
+ports (`stacks/adguard/.env` → `TAILSCALE_IP`), so only tailnet clients can reach its DNS/web UI —
+never the LAN or `0.0.0.0`. `bootstrap.sh` detects it via `tailscale ip -4`. If Tailscale isn't up
+yet at bootstrap time, it fails closed to `127.0.0.1` (nothing reachable) rather than opening it up
+on all interfaces — re-run bootstrap or update `stacks/adguard/.env` manually once Tailscale is up.
