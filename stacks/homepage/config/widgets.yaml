@@ -1,3 +1,17 @@
+- greeting:
+    text_size: xl
+    text: "Good Evening, Dheeraj"
+
+- resources:
+    label: Server
+    cpu: true
+    memory: true
+    disk: /rootfs
+    network: true
+    uptime: true
+    units: metric
+    refresh: 5000
+
 - datetime:
     text_format: dddd, MMMM Do
     locale: en
@@ -6,9 +20,10 @@
     provider: duckduckgo
     target: _blank
 
-- glances:
-    url: http://glances:61208
-    version: 4
-    cpu: true
-    mem: true
-    disk: /rootfs
+- openmeteo:
+    label: Bangalore
+    latitude: 12.9716
+    longitude: 77.5946
+    timezone: Asia/Kolkata
+    units: metric
+    cache: 5
