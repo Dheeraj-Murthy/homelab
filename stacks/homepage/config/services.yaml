@@ -45,25 +45,12 @@
         href: http://{{HOMEPAGE_VAR_HOSTNAME}}:61208
         description: Host system stats
         widget:
-          type: glances
-          url: http://glances:61208
-          version: 4
-          metric: containers
-          chart: true
-    - CPU History:
-        widget:
-          type: glances
-          url: http://glances:61208
-          version: 4
-          metric: cpu
-          chart: true
-    - Memory History:
-        widget:
-          type: glances
-          url: http://glances:61208
-          version: 4
-          metric: memory
-          chart: true
+          type: iframe
+          name: glances-dashboard
+          src: http://glances:61208
+          classes: h-64 sm:h-64 md:h-64 lg:h-64 xl:h-64 2xl:h-72
+          refreshInterval: 5000
+          allowScrolling: yes
 
 - Storage:
     - File Browser:
