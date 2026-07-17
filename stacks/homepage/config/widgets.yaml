@@ -6,7 +6,7 @@
     label: Server
     cpu: true
     memory: true
-    disk: /rootfs
+    disk: /host
     network: true
     uptime: true
     units: metric

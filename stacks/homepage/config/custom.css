@@ -3,7 +3,11 @@
  * Source: https://github.com/dracula/homepage-app
  * Requires settings.yaml: theme: dark, color: gray
  */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
 .theme-gray {
+  font-family: 'JetBrains Mono', monospace !important;
+
   /* DRACULA COLORS */
   --dracula-background: #282a36;
   --dracula-background-dark: #15161d;
@@ -78,6 +82,7 @@
   *******************************/
   #information-widgets {
     border-color: var(--widget-border);
+    gap: 2rem;
   }
 
   #information-widgets * {
@@ -109,6 +114,7 @@
 
   .service-card {
     background-color: var(--card-color);
+    min-height: 140px;
   }
 
   .service-card:hover {
@@ -261,6 +267,24 @@
   li[id^="glances-"] .bottom-4.right-3.left-3.z-20 .opacity-75.grow {
     color: var(--dracula-pink) !important;
     opacity: 0.75;
+  }
+
+  /*******************************
+  *       SEARCH STYLES         *
+  *******************************/
+
+  .information-widget-search input {
+    background-color: rgba(68, 71, 90, 0.6) !important;
+    color: var(--dracula-text) !important;
+    border-color: var(--dracula-foreground) !important;
+  }
+
+  .information-widget-search input::placeholder {
+    color: var(--dracula-slate) !important;
+  }
+
+  .information-widget-search button {
+    display: none !important;
   }
 
   /*******************************
