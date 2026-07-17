@@ -47,7 +47,7 @@
         widget:
           type: iframe
           name: glances-dashboard
-          src: http://glances:61208
+          src: http://{{HOMEPAGE_VAR_HOSTNAME}}:61208
           classes: h-64 sm:h-64 md:h-64 lg:h-64 xl:h-64 2xl:h-72
           refreshInterval: 5000
           allowScrolling: yes
