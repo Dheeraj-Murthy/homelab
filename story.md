@@ -174,11 +174,14 @@ Homepage improvements:
 
 Widgets:
 
-- [x] CPU
-- [x] Memory
-- [x] Disk
+- [x] CPU (via Resources widget)
+- [x] Memory (via Resources widget)
+- [x] Disk (via Resources widget)
+- [x] Network speed (via Resources widget)
+- [x] Uptime (via Resources widget)
 - [x] Docker
-- [ ] Weather (optional)
+- [x] Weather (via Open-Meteo widget)
+- [x] Greeting (via Greeting widget)
 - [ ] Calendar (optional)
 
 ---
