@@ -14,6 +14,13 @@ headerStyle: clean
 hideVersion: true
 target: _blank
 
-providers:
-  openweathermap: openweathermapapikey
-  weatherapi: weatherapiapikey
+layout:
+  Infrastructure:
+    style: row
+    columns: 3
+  Monitoring:
+    style: row
+    columns: 3
+  Storage:
+    style: row
+    columns: 3
