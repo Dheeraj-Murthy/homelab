@@ -10,10 +10,11 @@ services:
       GROUPID: 1000
     volumes:
       - ../../shared:/shared
+      - /mnt/timemachine:/mnt/timemachine
     ports:
       - 139:139
       - 445:445
-    command: '-p -u "dheeraj;${SAMBA_PASSWORD}" -s "Shared;/shared;yes;no;no;dheeraj"'
+    command: '-p -u "dheeraj;${SAMBA_PASSWORD}" -s "Shared;/shared;yes;no;no;dheeraj" -s "TimeMachine;/mnt/timemachine;yes;no;no;dheeraj" -G "TimeMachine;vfs objects = catia fruit streams_xattr" -G "TimeMachine;fruit:metadata = netatalk" -G "TimeMachine;fruit:model = MacSamba" -G "TimeMachine;fruit:posix_rename = yes" -G "TimeMachine;fruit:time machine = yes" -G "TimeMachine;nt acl support = no"'
 
 networks:
   default:
