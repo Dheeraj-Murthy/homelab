@@ -40,11 +40,7 @@
             widget:
               type: prometheus
               url: http://host.docker.internal:9090
-    - Management:
-        - SSH Access:
-            icon: terminal
-            href: ssh://dheeraj@{{HOMEPAGE_VAR_HOSTNAME}}
-            description: Connect via SSH (Tailscale)
+
 - Row 2:
     - Live:
         - Glances:
@@ -82,3 +78,8 @@
             icon: samba-server
             href: smb://{{HOMEPAGE_VAR_HOSTNAME}}/TimeMachine
             description: Time Machine backup share (SMB)
+    - Management:
+        - SSH Access:
+            icon: terminal
+            href: ssh://dheeraj@{{HOMEPAGE_VAR_HOSTNAME}}
+            description: Connect via SSH (Tailscale)
